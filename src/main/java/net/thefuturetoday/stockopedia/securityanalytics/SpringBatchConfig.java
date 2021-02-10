@@ -1,9 +1,11 @@
 package net.thefuturetoday.stockopedia.securityanalytics;
 
 import net.thefuturetoday.stockopedia.securityanalytics.etl.AttributeProcessor;
+import net.thefuturetoday.stockopedia.securityanalytics.etl.FactProcessor;
 import net.thefuturetoday.stockopedia.securityanalytics.etl.JobListener;
 import net.thefuturetoday.stockopedia.securityanalytics.etl.SecurityProcessor;
 import net.thefuturetoday.stockopedia.securityanalytics.model.AttributeDto;
+import net.thefuturetoday.stockopedia.securityanalytics.model.FactDto;
 import net.thefuturetoday.stockopedia.securityanalytics.model.SecurityDto;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -69,12 +71,31 @@ public class SpringBatchConfig {
     }
 
     @Bean
+    public FlatFileItemReader<FactDto> factReader() {
+        FlatFileItemReader<FactDto> reader = new FlatFileItemReader<>();
+        reader.setResource(new ClassPathResource("facts.csv"));
+        reader.setLinesToSkip(1);
+        reader.setLineMapper(new DefaultLineMapper<>() {{
+            setLineTokenizer(new DelimitedLineTokenizer() {{
+                setNames("security_id", "attribute_id", "value");
+            }});
+            setFieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
+                setTargetType(FactDto.class);
+            }});
+        }});
+        return reader;
+    }
+
+    @Bean
     public SecurityProcessor securityProcessor() {
         return new SecurityProcessor();
     }
 
     @Bean
     public AttributeProcessor attributeProcessor() { return new AttributeProcessor(); }
+
+    @Bean
+    public FactProcessor factProcessor() { return new FactProcessor(); }
 
     @Bean
     public JdbcBatchItemWriter<SecurityDto> securityWriter() {
@@ -95,14 +116,12 @@ public class SpringBatchConfig {
     }
 
     @Bean
-    public Job importDataJob(JobListener listener){
-        return jobBuilderFactory.get("importDataJob")
-                .incrementer(new RunIdIncrementer())
-                .listener(listener)
-                .flow(loadSecurities())
-                .next(loadAttributes())
-                .end()
-                .build();
+    public JdbcBatchItemWriter<FactDto> factWriter() {
+        JdbcBatchItemWriter<FactDto> writer = new JdbcBatchItemWriter<>();
+        writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
+        writer.setSql("INSERT INTO security_analytics.facts (security_id, attribute_id, value) VALUES (:securityId, :attributeId, :value)");
+        writer.setDataSource(dataSource);
+        return writer;
     }
 
     @Bean
@@ -122,6 +141,29 @@ public class SpringBatchConfig {
                 .reader(attributeReader())
                 .processor(attributeProcessor())
                 .writer(attributeWriter())
+                .build();
+    }
+
+
+    @Bean
+    public Step loadFacts() {
+        return stepBuilderFactory.get("loadFacts")
+                .<FactDto, FactDto> chunk(10)
+                .reader(factReader())
+                .processor(factProcessor())
+                .writer(factWriter())
+                .build();
+    }
+
+    @Bean
+    public Job importDataJob(JobListener listener){
+        return jobBuilderFactory.get("importDataJob")
+                .incrementer(new RunIdIncrementer())
+                .listener(listener)
+                .flow(loadSecurities())
+                .next(loadAttributes())
+                .next(loadFacts())
+                .end()
                 .build();
     }
 }

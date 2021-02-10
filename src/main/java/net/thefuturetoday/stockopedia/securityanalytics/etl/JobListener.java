@@ -1,6 +1,7 @@
 package net.thefuturetoday.stockopedia.securityanalytics.etl;
 
 import net.thefuturetoday.stockopedia.securityanalytics.model.AttributeDto;
+import net.thefuturetoday.stockopedia.securityanalytics.model.FactDto;
 import net.thefuturetoday.stockopedia.securityanalytics.model.SecurityDto;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
@@ -30,6 +31,11 @@ public class JobListener extends JobExecutionListenerSupport {
             List<AttributeDto> attributes = jdbcTemplate.query("SELECT id,name FROM security_analytics.attributes",
                     (rs, rowNum)-> new AttributeDto(rs.getInt(1), rs.getString(2)));
             attributes.forEach(System.out::println);
+
+            System.out.println("Facts...");
+            List<FactDto> facts = jdbcTemplate.query("SELECT security_id,attribute_id,value FROM security_analytics.facts",
+                    (rs, rowNum)-> new FactDto(rs.getInt(1), rs.getInt(2), rs.getBigDecimal(3)));
+            facts.forEach(System.out::println);
         }
     }
 }
