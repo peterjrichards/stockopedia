@@ -1,0 +1,163 @@
+{
+	"info": {
+		"_postman_id": "072e8301-2876-4b39-b215-22c79365709a",
+		"name": "Stockopedia",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Facts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://murmuring-everglades-79580.herokuapp.com/facts",
+					"protocol": "https",
+					"host": [
+						"murmuring-everglades-79580",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"facts"
+					]
+				},
+				"description": "Heroku instance"
+			},
+			"response": []
+		},
+		{
+			"name": "Test case 1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"expression\": {\"fn\": \"*\", \"a\": \"sales\", \"b\": 2},\n  \"security\": \"ABC\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://murmuring-everglades-79580.herokuapp.com/",
+					"protocol": "https",
+					"host": [
+						"murmuring-everglades-79580",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "Heroku instance\n\nThis one uses the `*` operator and makes use of one attribute name and an integer as its arguments\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Test case 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"expression\": {\"fn\": \"/\", \"a\": \"price\", \"b\": \"eps\"},\n  \"security\": \"BCD\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://murmuring-everglades-79580.herokuapp.com/",
+					"protocol": "https",
+					"host": [
+						"murmuring-everglades-79580",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "Heroku instance\n\nThis one uses the `/` operator and makes uses two attribute names as arguments"
+			},
+			"response": []
+		},
+		{
+			"name": "Test case 3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"expression\": {\n    \"fn\": \"-\", \n    \"a\": {\"fn\": \"-\", \"a\": \"eps\", \"b\": \"shares\"}, \n    \"b\": {\"fn\": \"-\", \"a\": \"assets\", \"b\": \"liabilities\"}\n  },\n  \"security\": \"CDE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://murmuring-everglades-79580.herokuapp.com/",
+					"protocol": "https",
+					"host": [
+						"murmuring-everglades-79580",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "Heroku instance\n\nThis one uses the `-` operator and the arguments are two expressions, which in turn use the `-` \noperator and attribute names as arguments:"
+			},
+			"response": []
+		},
+		{
+			"name": "Securities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://murmuring-everglades-79580.herokuapp.com/securities",
+					"protocol": "https",
+					"host": [
+						"murmuring-everglades-79580",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"securities"
+					]
+				},
+				"description": "Heroku instances\n\nReturns all securities in H2 database"
+			},
+			"response": []
+		},
+		{
+			"name": "Attributes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://murmuring-everglades-79580.herokuapp.com/attributes",
+					"protocol": "https",
+					"host": [
+						"murmuring-everglades-79580",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"attributes"
+					]
+				},
+				"description": "Heroku instance\n\nReturns all attributes in the H2 database"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
