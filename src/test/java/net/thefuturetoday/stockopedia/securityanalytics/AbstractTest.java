@@ -17,17 +17,22 @@ import java.io.IOException;
 @SpringBootTest(classes = SecurityAnalyticsApplication.class)
 @WebAppConfiguration
 public abstract class AbstractTest {
+    protected final QueryBuilder queryBuilder = new QueryBuilder();
+    protected final ExpressionBuilder expressionBuilder = new ExpressionBuilder();
     protected MockMvc mvc;
+
     @Autowired
     WebApplicationContext webApplicationContext;
 
     protected void setUp() throws Exception {
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
+
     protected String mapToJson(final Object obj) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(obj);
     }
+
     protected <T> T mapFromJson(final String json, final Class<T> clazz)
             throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();

@@ -4,16 +4,26 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "securities", schema = "security_analytics")
-public class Security {
+public class Security implements Serializable {
     @Id
     private Integer id;
 
     @Column(unique = true, nullable = false)
     private String symbol;
+
+    public Security() {
+    }
+
+    public Security(Integer id, String symbol) {
+        this();
+        setId(id);
+        setSymbol(symbol);
+    }
 
     public Integer getId() {
         return id;

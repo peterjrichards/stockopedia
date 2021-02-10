@@ -5,7 +5,7 @@ import org.springframework.batch.item.ItemProcessor;
 
 public class SecurityProcessor implements ItemProcessor<SecurityDto, SecurityDto> {
     @Override
-    public SecurityDto process(SecurityDto securityDto) throws Exception {
+    public SecurityDto process(SecurityDto securityDto) {
         return securityDto;
     }
 }

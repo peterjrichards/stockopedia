@@ -4,11 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "attributes", schema = "security_analytics")
-public class Attribute {
+public class Attribute implements Serializable {
     @Id
     private Integer id;
 

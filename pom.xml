@@ -11,8 +11,8 @@
 	<groupId>com.example</groupId>
 	<artifactId>security-analytics</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Security Analytics</name>
+	<description>Security Analytics</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -33,6 +33,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.11</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>

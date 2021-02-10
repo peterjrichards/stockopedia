@@ -1,12 +1,13 @@
 package net.thefuturetoday.stockopedia.securityanalytics.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @Table(name = "facts", schema = "security_analytics")
-public class Fact {
+public class Fact implements Serializable {
     @EmbeddedId
     private FactIdentity id;
 
@@ -17,6 +18,7 @@ public class Fact {
     }
 
     public Fact(FactIdentity id, BigDecimal value) {
+        this();
         this.id = id;
         this.value = value;
     }

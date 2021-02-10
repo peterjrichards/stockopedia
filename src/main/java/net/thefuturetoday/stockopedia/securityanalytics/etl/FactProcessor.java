@@ -6,7 +6,7 @@ import org.springframework.batch.item.ItemProcessor;
 public class FactProcessor implements ItemProcessor<FactDto, FactDto> {
 
     @Override
-    public FactDto process(FactDto factDto) throws Exception {
+    public FactDto process(FactDto factDto) {
         return factDto;
     }
 }

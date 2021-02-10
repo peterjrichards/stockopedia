@@ -3,7 +3,6 @@ package net.thefuturetoday.stockopedia.securityanalytics.api;
 
 import net.thefuturetoday.stockopedia.securityanalytics.data.FactRepository;
 import net.thefuturetoday.stockopedia.securityanalytics.model.Fact;
-import net.thefuturetoday.stockopedia.securityanalytics.model.Security;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

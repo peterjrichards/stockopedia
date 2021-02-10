@@ -1,6 +1,5 @@
 package net.thefuturetoday.stockopedia.securityanalytics.model;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
@@ -18,8 +17,9 @@ public class FactIdentity implements Serializable {
     }
 
     public FactIdentity(Security security, Attribute attribute) {
-        this.security = security;
-        this.attribute = attribute;
+        this();
+        setSecurity(security);
+        setAttribute(attribute);
     }
 
     public Security getSecurity() {
