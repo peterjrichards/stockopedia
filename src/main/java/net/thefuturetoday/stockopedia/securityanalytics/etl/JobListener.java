@@ -1,5 +1,6 @@
 package net.thefuturetoday.stockopedia.securityanalytics.etl;
 
+import net.thefuturetoday.stockopedia.securityanalytics.model.AttributeDto;
 import net.thefuturetoday.stockopedia.securityanalytics.model.SecurityDto;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
@@ -20,10 +21,15 @@ public class JobListener extends JobExecutionListenerSupport {
     @Override
     public void afterJob(JobExecution jobExecution) {
         if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
-            System.out.println("Table content...");
-            List<SecurityDto> results = jdbcTemplate.query("SELECT id,symbol FROM security_analytics.securities",
+            System.out.println("Securities...");
+            List<SecurityDto> securities = jdbcTemplate.query("SELECT id,symbol FROM security_analytics.securities",
                     (rs, rowNum)-> new SecurityDto(rs.getInt(1), rs.getString(2)));
-            results.forEach(System.out::println);
+            securities.forEach(System.out::println);
+
+            System.out.println("Attributes...");
+            List<AttributeDto> attributes = jdbcTemplate.query("SELECT id,name FROM security_analytics.attributes",
+                    (rs, rowNum)-> new AttributeDto(rs.getInt(1), rs.getString(2)));
+            attributes.forEach(System.out::println);
         }
     }
 }

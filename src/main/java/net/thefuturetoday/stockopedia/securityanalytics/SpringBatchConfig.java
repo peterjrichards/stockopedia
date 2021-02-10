@@ -1,7 +1,9 @@
 package net.thefuturetoday.stockopedia.securityanalytics;
 
+import net.thefuturetoday.stockopedia.securityanalytics.etl.AttributeProcessor;
 import net.thefuturetoday.stockopedia.securityanalytics.etl.JobListener;
 import net.thefuturetoday.stockopedia.securityanalytics.etl.SecurityProcessor;
+import net.thefuturetoday.stockopedia.securityanalytics.model.AttributeDto;
 import net.thefuturetoday.stockopedia.securityanalytics.model.SecurityDto;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -51,9 +53,28 @@ public class SpringBatchConfig {
     }
 
     @Bean
+    public FlatFileItemReader<AttributeDto> attributeReader() {
+        FlatFileItemReader<AttributeDto> reader = new FlatFileItemReader<>();
+        reader.setResource(new ClassPathResource("attributes.csv"));
+        reader.setLinesToSkip(1);
+        reader.setLineMapper(new DefaultLineMapper<>() {{
+            setLineTokenizer(new DelimitedLineTokenizer() {{
+                setNames("id", "name");
+            }});
+            setFieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
+                setTargetType(AttributeDto.class);
+            }});
+        }});
+        return reader;
+    }
+
+    @Bean
     public SecurityProcessor securityProcessor() {
         return new SecurityProcessor();
     }
+
+    @Bean
+    public AttributeProcessor attributeProcessor() { return new AttributeProcessor(); }
 
     @Bean
     public JdbcBatchItemWriter<SecurityDto> securityWriter() {
@@ -65,11 +86,21 @@ public class SpringBatchConfig {
     }
 
     @Bean
+    public JdbcBatchItemWriter<AttributeDto> attributeWriter() {
+        JdbcBatchItemWriter<AttributeDto> writer = new JdbcBatchItemWriter<>();
+        writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
+        writer.setSql("INSERT INTO security_analytics.attributes (id, name) VALUES (:id, :name)");
+        writer.setDataSource(dataSource);
+        return writer;
+    }
+
+    @Bean
     public Job importDataJob(JobListener listener){
         return jobBuilderFactory.get("importDataJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
                 .flow(loadSecurities())
+                .next(loadAttributes())
                 .end()
                 .build();
     }
@@ -81,6 +112,16 @@ public class SpringBatchConfig {
                 .reader(securityReader())
                 .processor(securityProcessor())
                 .writer(securityWriter())
+                .build();
+    }
+
+    @Bean
+    public Step loadAttributes() {
+        return stepBuilderFactory.get("loadAttributes")
+                .<AttributeDto, AttributeDto> chunk(10)
+                .reader(attributeReader())
+                .processor(attributeProcessor())
+                .writer(attributeWriter())
                 .build();
     }
 }

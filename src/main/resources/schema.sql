@@ -13,7 +13,7 @@ CREATE TABLE security_analytics.securities (
 
 CREATE TABLE security_analytics.attributes (
   id INT PRIMARY KEY,
-  attribute VARCHAR(250) NOT NULL
+  name VARCHAR(250) NOT NULL
 );
 
 CREATE TABLE security_analytics.facts (
