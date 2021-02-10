@@ -61,7 +61,7 @@ public class DslControllerIntegrationTest {
     }
 
     private String mapToJson(final Object obj) throws JsonProcessingException {
-        final var objectMapper = new ObjectMapper();
+        final ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(obj);
     }
 }

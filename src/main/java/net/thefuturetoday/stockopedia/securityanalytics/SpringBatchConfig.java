@@ -43,11 +43,11 @@ public class SpringBatchConfig {
         FlatFileItemReader<SecurityDto> reader = new FlatFileItemReader<>();
         reader.setResource(new ClassPathResource("securities.csv"));
         reader.setLinesToSkip(1);
-        reader.setLineMapper(new DefaultLineMapper<>() {{
+        reader.setLineMapper(new DefaultLineMapper<SecurityDto>() {{
             setLineTokenizer(new DelimitedLineTokenizer() {{
                 setNames("id", "symbol");
             }});
-            setFieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
+            setFieldSetMapper(new BeanWrapperFieldSetMapper<SecurityDto>() {{
                 setTargetType(SecurityDto.class);
             }});
         }});
@@ -59,11 +59,11 @@ public class SpringBatchConfig {
         FlatFileItemReader<AttributeDto> reader = new FlatFileItemReader<>();
         reader.setResource(new ClassPathResource("attributes.csv"));
         reader.setLinesToSkip(1);
-        reader.setLineMapper(new DefaultLineMapper<>() {{
+        reader.setLineMapper(new DefaultLineMapper<AttributeDto>() {{
             setLineTokenizer(new DelimitedLineTokenizer() {{
                 setNames("id", "name");
             }});
-            setFieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
+            setFieldSetMapper(new BeanWrapperFieldSetMapper<AttributeDto>() {{
                 setTargetType(AttributeDto.class);
             }});
         }});
@@ -75,11 +75,11 @@ public class SpringBatchConfig {
         FlatFileItemReader<FactDto> reader = new FlatFileItemReader<>();
         reader.setResource(new ClassPathResource("facts.csv"));
         reader.setLinesToSkip(1);
-        reader.setLineMapper(new DefaultLineMapper<>() {{
+        reader.setLineMapper(new DefaultLineMapper<FactDto>() {{
             setLineTokenizer(new DelimitedLineTokenizer() {{
                 setNames("security_id", "attribute_id", "value");
             }});
-            setFieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
+            setFieldSetMapper(new BeanWrapperFieldSetMapper<FactDto>() {{
                 setTargetType(FactDto.class);
             }});
         }});
