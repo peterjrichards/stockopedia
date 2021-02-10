@@ -1,4 +1,4 @@
-package net.thefuturetoday.stockopedia.securityanalytics.model;
+package net.thefuturetoday.stockopedia.securityanalytics.etl.model;
 
 import java.io.Serializable;
 

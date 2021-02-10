@@ -1,8 +1,8 @@
 package net.thefuturetoday.stockopedia.securityanalytics.etl;
 
-import net.thefuturetoday.stockopedia.securityanalytics.model.AttributeDto;
-import net.thefuturetoday.stockopedia.securityanalytics.model.FactDto;
-import net.thefuturetoday.stockopedia.securityanalytics.model.SecurityDto;
+import net.thefuturetoday.stockopedia.securityanalytics.etl.model.AttributeDto;
+import net.thefuturetoday.stockopedia.securityanalytics.etl.model.FactDto;
+import net.thefuturetoday.stockopedia.securityanalytics.etl.model.SecurityDto;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;

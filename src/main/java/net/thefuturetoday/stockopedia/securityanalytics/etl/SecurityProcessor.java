@@ -1,6 +1,6 @@
 package net.thefuturetoday.stockopedia.securityanalytics.etl;
 
-import net.thefuturetoday.stockopedia.securityanalytics.model.SecurityDto;
+import net.thefuturetoday.stockopedia.securityanalytics.etl.model.SecurityDto;
 import org.springframework.batch.item.ItemProcessor;
 
 public class SecurityProcessor implements ItemProcessor<SecurityDto, SecurityDto> {

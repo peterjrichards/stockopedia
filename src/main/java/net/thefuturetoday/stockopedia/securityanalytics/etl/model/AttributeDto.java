@@ -1,4 +1,4 @@
-package net.thefuturetoday.stockopedia.securityanalytics.model;
+package net.thefuturetoday.stockopedia.securityanalytics.etl.model;
 
 public class AttributeDto {
     private int id;
