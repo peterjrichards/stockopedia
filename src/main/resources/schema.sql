@@ -1,10 +1,8 @@
-DROP TABLE IF EXISTS facts;
-DROP TABLE IF EXISTS attributes;
-DROP TABLE IF EXISTS securities;
+CREATE SCHEMA IF NOT EXISTS security_analytics AUTHORIZATION sa;
 
-DROP SCHEMA IF EXISTS security_analytics;
-
-CREATE SCHEMA security_analytics AUTHORIZATION sa;
+DROP TABLE IF EXISTS security_analytics.facts;
+DROP TABLE IF EXISTS security_analytics.attributes;
+DROP TABLE IF EXISTS security_analytics.securities;
 
 CREATE TABLE security_analytics.securities (
   id INT PRIMARY KEY,
